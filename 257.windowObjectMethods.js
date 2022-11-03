@@ -1,3 +1,12 @@
+/**
+ * alert()
+ * addEventListener()
+ * clearInterval()
+ * setInterval()
+ * prompt()
+ */
+
+
 function sayHi(){
     console.log('Hi')
 }
