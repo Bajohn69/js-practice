@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 因為 local storage 只會存成字串
+    // 所以要用 JSON 傳送，array 才會是 array(object, boolean, number... 也是)
+    // parse = 解析
+
+    // 1.把 array 用 JSON.stringify 轉換成 string
+    let friends = ['Josh', 'Mike', 'Doug']
+    localStorage.setItem('friends', JSON.stringify(friends))
+
+    // 2.再用 JSON.parse 轉換回來
+    let myFriends = JSON.parse(localStorage.getItem('friends'))
+    console.log(myFriends);
+</script>
+</html>

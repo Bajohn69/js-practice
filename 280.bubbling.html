@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .a{
+            width: 300px;
+            height: 200px;
+            background-color: royalblue;
+        }
+        .b{
+            width: 100px;
+            height: 50px;
+            background-color: rgb(96, 156, 78);
+        }
+    </style>
+</head>
+<body>
+    <div class="a">
+        <div class="b"></div>
+    </div>
+</body>
+<script>
+    let a = document.querySelector('div.a')
+    let b = document.querySelector('div.b')
+
+    a.addEventListener('click', () => {
+        alert(`a's event listerner's callback is running.`)
+    })
+
+    b.addEventListener('click', e => {
+        e.stopPropagation() // 防止 event bubbling
+        alert(`b's event listerner's callback is running.`)
+    })
+</script>
+</html>

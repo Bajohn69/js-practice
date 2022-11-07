@@ -23,4 +23,12 @@
  *      let redP = section.querySelector('p.red')
  * querySelectorAll()
  * remove()
+ * style
+ *      // JS 裡面不能用減號 (-) 要改成 camelCase
+ *      let button = document.querySelector('button')
+ *      button.style.backgroundColor = 'black'
+ *      button.style.color = 'black'
+ *      button.style = 'backgroundColor: black; color: white;'
+ *      // inline styling > id > class > ...
+ *      button.style.color = '' //讓他的 style 歸零
  */
