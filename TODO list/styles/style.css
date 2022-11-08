@@ -30,7 +30,8 @@ form {
   /* Chrome, Safari, Edge, Opera */
   /* Firefox */
 }
-form input, form button {
+form input,
+form button {
   border: none;
   padding: 0.25rem 0.5rem;
   font-size: 1.75rem;
@@ -96,6 +97,23 @@ section div.todo button.complete {
 }
 section div.todo button.trash {
   background-color: rgb(241, 58, 38);
+}
+
+div.sort {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0rem;
+}
+div.sort button {
+  margin: 0px 10px;
+  cursor: pointer;
+  background-color: #888;
+  color: white;
+  border: none;
+  padding: 0.25rem 0.5rem;
+  font-size: 1.75rem;
+  border-radius: 4px;
 }
 
 .done {
