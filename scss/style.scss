@@ -1,0 +1,48 @@
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+/*
+** html 一樣要連到 CSS 不是 SCSS
+1.nested CSS
+2.variables
+3.self &
+4.import
+(1) 分類
+(2) 重複利用
+5.mixin 有點像函數 function(parameter){}
+*/
+
+/*
+free pictures
+1.unsplash
+2.pexel
+
+free icon
+1.TW icon
+2.font awesome
+3.iconmonstr(老)
+4.icons8(美，要註明來源)
+
+free animation & svg
+1.undraw
+2.freepik stories(可自製動畫，要註明來源)
+
+html bookmark
+
+*/
+
+$themeColor: green;
+
+@import './header';
+
+@mixin flexbox($direction) {
+   display: flex;
+   flex-direction: $direction;
+}
+
+div.link{
+   @include flexbox(row)
+}
