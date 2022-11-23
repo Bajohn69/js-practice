@@ -17,3 +17,28 @@ Person.prototype.sayHi = function () {
 Person.prototype.intro = function () {
   console.log("Hi, my name is " + this.name + ".");
 };
+
+function Student(name, age, height, weight, major, grade) {
+  // this keyword refers to Student 學生是人
+  Person.call(this, name, age, height, weight);
+  (this.major = major), (this.grade = grade);
+}
+
+// let Bajohn = new Student("Bajohn", 28, 163, 83, "js", 3.85);
+// console.log(Bajohn);
+// Bajohn.sayHi(); // Bajohn.sayHi is not a function (跟 Person.prototype 毫無關聯，沒有繼承
+
+Student.prototype = Object.create(Person.prototype); // 繼承所有 prototype
+// let Bajohn = new Student("Bajohn", 28, 163, 83, "js", 3.85);
+// console.log(Bajohn);
+// Bajohn.sayHi();
+
+Student.prototype.study = function () {
+  console.log("I am studying.");
+};
+
+let Bajohn = new Student("Bajohn", 28, 163, 83, "js", 3.85);
+Bajohn.study();
+
+let Mike = new Person("Mike", 26, 190, 90);
+// Mike.study(); // Mike.study is not a function (Mike 不是學生)
