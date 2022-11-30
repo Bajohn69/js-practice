@@ -1,0 +1,28 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: darkslategray;
+  color: white;
+}
+
+table,
+tr,
+th,
+td {
+  border-collapse: collapse;
+  border: #ff5b00 1px solid;
+}
+
+th {
+  text-align: left;
+}
+
+tr,
+th,
+td {
+  padding: 0.25rem 0.5rem;
+}
