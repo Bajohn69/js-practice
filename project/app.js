@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const ejs = require("ejs");
 const mongoose = require("mongoose");
+const fs = require("fs");
 
 // connect to mongoDB
 // https://mongoosejs.com/ 複製前兩行
@@ -33,7 +34,10 @@ mongoose
 // 另一種寫法 Validators Valid(adj.) 有效的
 // 1.required 2.default 所有 schema type 都通用(每個 schema 都有不同的 option)
 // required 也可以寫 function
+// validation
 // https://mongoosejs.com/docs/validation.html#built-in-validators
+// schematypes
+// https://mongoosejs.com/docs/schematypes.html
 const studentSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -49,9 +53,52 @@ const studentSchema = new mongoose.Schema({
     default: "undecided",
   },
   scholarship: {
-    merit: { type: Number, max: 5000, default: 0 },
-    other: { type: Number, default: 0 },
+    merit: {
+      type: Number,
+      min: [0, "Are you trying to enter negative numbers?"],
+      max: 5000,
+      default: 0,
+    },
+    other: {
+      type: Number,
+      min: [0, "Are you trying to enter negative numbers?"],
+      default: 0,
+    },
   },
+});
+
+// create an instance method
+studentSchema.methods.totalScholarship = function () {
+  // 注意!! 若使用 arrow function, this 會是 window obj, console.log => empty obj {}
+  // console.log(this);
+  return this.scholarship.merit + this.scholarship.other;
+};
+
+studentSchema.methods.addAge = function () {
+  this.age++;
+  this.save();
+};
+
+// static method not belongs to the schema
+// static method 屬於 model 不屬於 schema(但長很像)
+studentSchema.statics.setOtherToZero = function () {
+  return this.updateMany({}, { "scholarship.other": 0 });
+  // {} 表示所有學生
+};
+
+// define middleware
+// 若有新的使用者註冊，伺服器端會知道
+// 註冊之前
+studentSchema.pre("save", async function () {
+  fs.writeFile("record.txt", "One data is trying to be saved", (e) => {
+    if (e) throw e;
+  });
+});
+// 註冊之後
+studentSchema.post("save", async function () {
+  fs.writeFile("record.txt", "One data has been saved", (e) => {
+    if (e) throw e;
+  });
 });
 
 // create a model for students
@@ -60,15 +107,96 @@ const studentSchema = new mongoose.Schema({
 const Student = mongoose.model("Student", studentSchema);
 
 const newStudent = new Student({
-  // required 的項目沒打就會出現 error
-  name: "Grace",
-  age: 26,
-  major: "Law",
+  name: "Zach",
+  age: 28,
+  major: "Chem",
   scholarship: {
-    merit: 2500, // type: Number 不會強制，他會幫你轉(文字就會出現 error)
-    other: 1500,
+    merit: 2000,
+    other: 0,
   },
 });
+
+newStudent
+  .save()
+  .then(() => {
+    console.log("saved");
+  })
+  .catch((e) => {
+    console.log("not saved", e);
+    // 會覆寫 record.txt 檔
+    fs.writeFile("record.txt", "Data is not saved", (e) => {
+      if (e) throw e;
+    });
+  });
+
+// Student.setOtherToZero()
+//   .then((msg) => {
+//     console.log(msg);
+//   })
+//   .catch((e) => {
+//     console.log(e);
+//   });
+
+// 另一種 findOneAndUpdate
+// Student.findOne({ name: "Grace" })
+//   .then((data) => {
+//     data.addAge();
+//     console.log(data);
+//   })
+//   .catch((e) => {
+//     console.log(e);
+//   });
+
+// 列出所有人的 total scholarship
+// Student.find({})
+//   .then((data) => {
+//     data.forEach((oneStudent) => {
+//       console.log(
+//         `${
+//           oneStudent.name
+//         } has total scholarship ${oneStudent.totalScholarship()}.`
+//       );
+//     });
+//   })
+//   .catch((e) => {
+//     console.log("error!!!!!!");
+//     console.log(e);
+//   });
+
+// 因為 find() 一定會回傳 array 但這個 function 不會回傳 array，所以要用 findOne()
+// Student.findOne({})
+// .then((data) => {
+//   let result = data.totalScholarship();
+//   console.log(result);
+// })
+// .catch((e) => {
+//   console.log("error!!!!!!!");
+//   console.log(e);
+// });
+
+// Student.findOneAndUpdate(
+//   { name: "Grace" },
+//   { "scholarship.merit": 3500 },
+//   { new: true, runValidators: true } // 這邊要再確認一次，不然會有問題 runValidators: true
+// )
+//   .then((msg) => {
+//     console.log(msg);
+//   })
+//   .catch((e) => {
+//     console.log("Update Failed.");
+//     console.log(e);
+//   });
+
+// const newStudent = new Student({
+//   // required 的項目沒打就會出現 error
+//   name: "Grace",
+//   age: 26,
+//   major: "Law",
+//   scholarship: {
+//     merit: 2500, // type: Number 不會強制，他會幫你轉(文字就會出現 error)
+//     other: 1500,
+//   },
+// });
 
 // const newStudent = new Student({
 //   // required 的項目沒打就會出現 error
@@ -81,15 +209,15 @@ const newStudent = new Student({
 //   isMarried: true, // 不在 schema 上的東西就不會出現
 // });
 
-newStudent
-  .save()
-  .then(() => {
-    console.log("Data has been saved.");
-  })
-  .catch((e) => {
-    console.log("error has happened.");
-    console.log(e);
-  });
+// newStudent
+//   .save()
+//   .then(() => {
+//     console.log("Data has been saved.");
+//   })
+//   .catch((e) => {
+//     console.log("error has happened.");
+//     console.log(e);
+//   });
 
 // delete and update
 // Student.findOneAndDelete({ "scholarship.merit": { $gte: 2000 } }).then(
@@ -129,9 +257,13 @@ newStudent
 // });
 
 // find object in students (find() 會回傳 array)
+// -----------------------------------------------------------
+
 // Student.find({}).then((data) => {
 //   console.log(data);
 // });
+
+// -----------------------------------------------------------
 
 // findOne() 找到第一個符合條件ㄉ資料(obj)
 // Student.find({ name: "John" }).then((data) => {
