@@ -105,9 +105,23 @@ app.put("/students/edit/:id", async (req, res) => {
       { new: true, runValidators: true }
     );
     res.redirect(`/students/${id}`);
-  } catch (e) {
+  } catch {
     res.render("reject.ejs");
   }
+});
+
+// 用 postman 做
+app.delete("/students/delete/:id", (req, res) => {
+  let { id } = req.params;
+  Student.deleteOne({ id })
+    .then((msg) => {
+      console.log(msg);
+      res.send("Deleted successfully.");
+    })
+    .catch((e) => {
+      console.log(e);
+      res.send("Delete failed");
+    });
 });
 
 app.get("/*", (req, res) => {
