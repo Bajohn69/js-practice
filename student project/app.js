@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const Student = require("./models/students");
 const methodOverride = require("method-override");
 
+// middleware
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
@@ -188,21 +189,48 @@ app.put("/students/:id", async (req, res) => {
   }
 });
 
-// 新的
-// app.patch("/student/:id", async (req, res) => {
-//   let { id, name, age, merit, other } = req.body;
-//   try {
-//     let d = await Student.findOneAndUpdate(
-//       { id },
-//       { id, name, age, scholarship: { merit, other } },
-//       { new: true, runValidators: true }
-//     );
-//     res.send("Successfully updated the data.");
-//   } catch (e) {
-//     res.status(404).send(e);
-//     // res;
-//   }
-// });
+// 新的(patch)
+// 參考 329.class
+// 因為回傳回來的不是 scholarship.merit 只有 merit
+class newData {
+  constructor() {}
+  // patch 只改想改ㄉ
+  setProperty(key, value) {
+    if (key !== "merit" && key !== "other") {
+      this[key] = value;
+    } else {
+      this[`scholarship.${key}`] = value;
+    }
+  }
+}
+
+// 新的(patch)
+app.patch("/students/:id", async (req, res) => {
+  let { id } = req.params;
+  // let { name, age, merit, other } = req.body;
+  // 上面這行就不用了
+  let newObject = new newData();
+  for (let property in req.body) {
+    newObject.setProperty(property, req.body[property]);
+  }
+  // 修改過後的 newObject
+  console.log(newObject);
+
+  try {
+    let d = await Student.findOneAndUpdate(
+      { id },
+      newObject,
+      // 下面這行改成上面
+      // { id, name, age, scholarship: { merit, other } },
+      { new: true, runValidators: true }
+    );
+    console.log(d);
+    res.send("Successfully updated the data.");
+  } catch (e) {
+    res.status(404).send(e);
+    // res;
+  }
+});
 
 // 舊版
 // app.put("/students/edit/:id", async (req, res) => {
@@ -229,6 +257,19 @@ app.delete("/students/delete/:id", (req, res) => {
     .then((msg) => {
       console.log(msg);
       res.send("Deleted successfully.");
+    })
+    .catch((e) => {
+      console.log(e);
+      res.send("Delete failed");
+    });
+});
+
+// 刪除全部
+app.delete("/students/delete", (req, res) => {
+  Student.deleteMany({})
+    .then((msg) => {
+      console.log(msg);
+      res.send("Deleted all data successfully.");
     })
     .catch((e) => {
       console.log(e);
