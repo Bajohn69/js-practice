@@ -1,6 +1,8 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20");
 const User = require("../models/user-model");
+const LocalStrategy = require("passport-local");
+const bcrypt = require("bcrypt");
 
 // 這邊的 done 跟下面的 done 沒關聯
 // serializeUser: 把使用者的資料用 bytes 的形式存到 session (UnserializeUser 就是反推回來)
@@ -92,3 +94,23 @@ DeserializeUser
   }
 ));
  */
+
+// https://www.passportjs.org/packages/passport-local/
+passport.use(
+  new LocalStrategy(async (username, password, done) => {
+    let foundUser = await User.findOne({ email: username });
+    if (foundUser) {
+      // compare(使用者輸入的密碼, 資料庫的密碼)
+      let result = await bcrypt.compare(password, foundUser.password);
+      if (result) {
+        done(null, foundUser);
+        // OK 的話會傳到上面 serializeUser
+      } else {
+        done(null, false);
+      }
+    } else {
+      // 若沒找到使用者
+      done(null, false);
+    }
+  })
+);

@@ -8,6 +8,8 @@ const profileRoutes = require("./routes/profile-routes");
 require("./config/passport"); // 直接 require 會直接執行
 const session = require("express-session");
 const passport = require("passport");
+const flash = require("connect-flash");
+// const { reset } = require("nodemon");
 mongoose.set("strictQuery", true);
 
 mongoose
@@ -35,6 +37,15 @@ app.use(passport.initialize());
 // 讓 passport 運行他的認證功能
 app.use(passport.session());
 // 讓 passport 可以使用 session
+app.use(flash());
+app.use((req, res, next) => {
+  // 這邊要看 partials/message.ejs
+  // res.locals 設定的屬性可以在 ejs 做使用
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  res.locals.error = req.flash("error");
+  next();
+});
 
 // 設定 routes(只要任何跟 /auth 有關的都要使用到 authRoutes 裡面的 routes)
 app.use("/auth", authRoutes);
