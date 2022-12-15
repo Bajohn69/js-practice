@@ -8,6 +8,8 @@
     padding: 1rem;
     width: 400px;
     .imageContainer {
+      margin-bottom: 20px;
+      border-radius: 20px;
       overflow: hidden;
       height: 40vh;
       img {
@@ -16,7 +18,7 @@
         object-fit: cover;
         transition: all 0.3s ease;
         &:hover {
-          transform: scale(1.25);
+          transform: scale(1.1);
         }
       }
     }

@@ -10,7 +10,6 @@ body {
 
 a {
   text-decoration: none;
-  color: black;
 }
 
 ul {
@@ -23,13 +22,26 @@ ul {
   align-items: center;
   padding: 4rem;
 
-  button {
-    padding: 0.5rem 0.75rem;
-    font-size: 1.5rem;
-    border: none;
-    background-color: #ccc;
-    cursor: pointer;
-  }
+  // button {
+  //   margin: 20px;
+  //   padding: 1rem 1rem;
+  //   font-size: 1.5rem;
+  //   border: none;
+  //   background-color: #ccc;
+  //   cursor: pointer;
+  //   &:hover {
+  //     color: white;
+  //   }
+  // }
+}
+
+button {
+  // margin-top: 20px;
+  padding: 1rem 1rem;
+  font-size: 1.5rem;
+  border: none;
+  background-color: #ccc;
+  cursor: pointer;
 }
 
 .Homepage {

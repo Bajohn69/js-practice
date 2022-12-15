@@ -10,7 +10,6 @@ body {
 
 a {
   text-decoration: none;
-  color: black;
 }
 
 ul {
@@ -23,8 +22,9 @@ ul {
   align-items: center;
   padding: 4rem;
 }
-.morePicture button {
-  padding: 0.5rem 0.75rem;
+
+button {
+  padding: 1rem 1rem;
   font-size: 1.5rem;
   border: none;
   background-color: #ccc;
@@ -86,6 +86,8 @@ nav ul li a {
   width: 400px;
 }
 .pictures .picture .imageContainer {
+  margin-bottom: 20px;
+  border-radius: 20px;
   overflow: hidden;
   height: 40vh;
 }
@@ -97,5 +99,5 @@ nav ul li a {
   transition: all 0.3s ease;
 }
 .pictures .picture .imageContainer img:hover {
-  transform: scale(1.25);
+  transform: scale(1.1);
 }/*# sourceMappingURL=style.css.map */
