@@ -9,7 +9,7 @@ const Picture = ({ data }) => {
       </div>
       <p>
         <a href={data.src.large}>
-          <button className="btn btn-outline-primary ">Download</button>
+          <button className="">Download</button>
         </a>
       </p>
     </div>

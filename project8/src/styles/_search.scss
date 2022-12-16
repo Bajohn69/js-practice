@@ -4,13 +4,20 @@
   align-items: center;
   padding: 3rem 0rem;
 
-  input,
-  button {
+  input {
+    border-radius: 10px 0 0 10px;
     font-size: 2rem;
     padding: 0.25rem;
     border: 3px solid #ccc;
   }
+
   button {
+    font-size: 2rem;
+    padding: 0.25rem;
+    padding-right: 0.5rem;
+    border: 3px solid #ccc;
     background-color: #ccc;
+    border-radius: 0 10px 10px 0;
+    color: rgb(72, 72, 72);
   }
 }
