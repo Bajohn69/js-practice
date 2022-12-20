@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/user", authRoute);
 app.use(
   "/api/courses",
-  passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }), // 用 passport.authenticate 保護 /courses
   courseRoute
 );
 // 要被 jwt 保護，只有登入系統的人，才能新增或註冊課程(驗證 jwt)
