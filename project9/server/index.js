@@ -10,6 +10,7 @@ const courseRoute = require("./routes").course;
 const passport = require("passport");
 require("./config/passport")(passport);
 // 這裡面是一個 function 代入 passport 參數直接執行
+const cors = require("cors");
 
 mongoose
   .connect("mongodb://localhost:27017/mernDB")
@@ -20,8 +21,10 @@ mongoose
     console.log(e);
   });
 
+// middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 app.use("/api/user", authRoute);
 app.use(
