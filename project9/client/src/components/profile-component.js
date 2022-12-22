@@ -1,9 +1,18 @@
-const ProfileComponent = (props) => {
-  let { currentUser, setCurrentUser } = props;
+import AuthService from "../services/auth.service";
+import { useState, useEffect } from "react";
 
+const ProfileComponent = ({ currentUser, setCurrentUser }) => {
+  // state lifting 到 app.js
+  // let [currentUser, setCurrentUser] = useState(null);
+
+  // 不需要了
+  // empty array 讓他一進來就執行 cb
+  // useEffect(() => {
+  //   setCurrentUser(AuthService.getCurrentUser());
+  // }, []);
   return (
     <div style={{ padding: "3rem" }}>
-      {!currentUser && <div>在獲取您的個人資料之前，您必須先登錄。</div>}
+      {!currentUser && <div>在獲取您的個人資料之前，您必須先登入。</div>}
       {currentUser && (
         <div>
           <h2>以下是您的個人檔案：</h2>
