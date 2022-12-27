@@ -1,3 +1,5 @@
+const { course } = require("../models");
+
 const router = require("express").Router();
 const Course = require("../models").course;
 const courseValidation = require("../validation").courseValidation;
@@ -22,9 +24,9 @@ router.get("/", async (req, res) => {
 });
 
 // 用講師 id 尋找課程
-router.get("/instrutor/:_instrutor_id", async (req, res) => {
-  let { _instrutor_id } = req.params;
-  let coursesFound = await Course.find({ instrutor: _instrutor_id })
+router.get("/instructor/:_instructor_id", async (req, res) => {
+  let { _instructor_id } = req.params;
+  let coursesFound = await Course.find({ instructor: _instructor_id })
     .populate("instructor", ["username", "email"])
     .exec();
   return res.send(coursesFound);
@@ -33,10 +35,23 @@ router.get("/instrutor/:_instrutor_id", async (req, res) => {
 // 用學生 id 來尋找註冊過的課程
 router.get("/student/:_student_id", async (req, res) => {
   let { _student_id } = req.params;
-  let courseFound = await Course.find({ student: _student_id })
+  let coursesFound = await Course.find({ students: _student_id }) //  students 是 models 的
     .populate("instructor", ["username", "email"])
     .exec();
-  return res.send(courseFound);
+  return res.send(coursesFound);
+});
+
+// 用課程名稱尋找課程
+router.get("/findByName/:name", async (req, res) => {
+  let { name } = req.params;
+  try {
+    let coursesFound = await Course.find({ title: name })
+      .populate("instructor", ["username", "email"])
+      .exec();
+    return res.send(coursesFound);
+  } catch (e) {
+    return res.status(500).send(e);
+  }
 });
 
 // 用課程 id 尋找課程
@@ -80,6 +95,19 @@ router.post("/", async (req, res) => {
     );
   } catch (e) {
     return res.status(500).send("無法創建課程");
+  }
+});
+
+// 讓學生透過課程 id 來註冊新課程
+router.post("/enroll/:_id", async (req, res) => {
+  let { _id } = req.params;
+  try {
+    let course = await Course.findOne({ _id }).exec();
+    course.students.push(req.user._id);
+    await course.save();
+    return res.send("課程註冊成功");
+  } catch (e) {
+    return res.send(e);
   }
 });
 

@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
 
-const EnrollComponent = (props) => {
-  let { currentUser, setCurrentUser } = props;
+const EnrollComponent = ({ currentUser, setCurrentUser }) => {
   const navigate = useNavigate();
   let [searchInput, setSearchInput] = useState("");
-  let [searchResult, setSearchResult] = useState(null);
+  let [searchResult, setSearchResult] = useState(null); // 搜尋結果
+
   const handleTakeToLogin = () => {
     navigate("/login");
   };
@@ -16,21 +16,21 @@ const EnrollComponent = (props) => {
   const handleSearch = () => {
     CourseService.getCourseByName(searchInput)
       .then((data) => {
-        console.log(data);
         setSearchResult(data.data);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((e) => {
+        console.log(e);
       });
   };
+
   const handleEnroll = (e) => {
-    CourseService.enroll(e.target.id, currentUser.user._id)
+    CourseService.enroll(e.target.id)
       .then(() => {
-        window.alert("課程註冊成功。重新導向到課程頁面。");
+        window.alert("課程註冊成功，重新導向到課程頁面");
         navigate("/course");
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((e) => {
+        console.log(e);
       });
   };
 
@@ -38,18 +38,18 @@ const EnrollComponent = (props) => {
     <div style={{ padding: "3rem" }}>
       {!currentUser && (
         <div>
-          <p>You must login first before searching for courses.</p>
+          <p>您必須先登入才能開始註冊課程</p>
           <button
             className="btn btn-primary btn-lg"
             onClick={handleTakeToLogin}
           >
-            Take me to login page.
+            回到登入頁面
           </button>
         </div>
       )}
       {currentUser && currentUser.user.role == "instructor" && (
         <div>
-          <h1>Only students can enroll in courses.</h1>
+          <h1>只有學生才能註冊課程</h1>
         </div>
       )}
       {currentUser && currentUser.user.role == "student" && (
@@ -73,6 +73,7 @@ const EnrollComponent = (props) => {
                 <h5 className="card-title">課程名稱：{course.title}</h5>
                 <p className="card-text">{course.description}</p>
                 <p>價格: {course.price}</p>
+                <p>講師: {course.instructor.username}</p>
                 <p>目前的學生人數: {course.students.length}</p>
                 <a
                   href="#"

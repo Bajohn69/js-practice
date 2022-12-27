@@ -42,7 +42,7 @@ const PostCourseComponent = (props) => {
             className="btn btn-primary btn-lg"
             onClick={handleTakeToLogin}
           >
-            帶我進入登錄頁面。
+            帶我進入登入頁面。
           </button>
         </div>
       )}
