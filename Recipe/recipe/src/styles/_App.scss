@@ -26,6 +26,18 @@
       border: $themeColor 2px solid;
       border-radius: 4px;
       cursor: pointer;
+      &:hover {
+        color: $themeColor;
+        // border: $themeColor 2px solid;
+        background-color: white;
+      }
     }
+  }
+
+  .recipes {
+    margin-top: 24px;
+    align-items: baseline;
+    // display: grid;
+    // grid-template-columns: 230px 230px;
   }
 }

@@ -43,6 +43,14 @@ code {
   border-radius: 4px;
   cursor: pointer;
 }
+.app .searchForm .submit:hover {
+  color: rgb(23, 171, 182);
+  background-color: white;
+}
+.app .recipes {
+  margin-top: 24px;
+  align-items: baseline;
+}
 
 .recipeTile .img-wrap {
   width: 200px;

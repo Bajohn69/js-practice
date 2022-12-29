@@ -23,7 +23,7 @@ function App() {
     getRecipes();
   };
   return (
-    <div className="app">
+    <div className="app container">
       <h1>🥦Recipe🥩</h1>
       <form className="searchForm" onSubmit={onSubmit}>
         <input
@@ -36,7 +36,7 @@ function App() {
         <input type="submit" value="Search" className="submit" />
       </form>
 
-      <div>
+      <div className="recipes row">
         {recipes.map((recipe) => {
           return <RecipeTile recipe={recipe} />;
         })}
