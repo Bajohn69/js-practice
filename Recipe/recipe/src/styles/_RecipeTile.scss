@@ -1,0 +1,14 @@
+.recipeTile {
+  .img-wrap {
+    width: 200px;
+    height: 200px;
+    border-radius: 8px;
+    overflow: hidden;
+    object-fit: cover;
+  }
+  .title {
+    max-width: 200px;
+    text-align: center;
+    margin: 12px 0px;
+  }
+}
