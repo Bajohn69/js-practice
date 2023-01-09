@@ -26,11 +26,19 @@
       border: $themeColor 2px solid;
       border-radius: 4px;
       cursor: pointer;
+      transition: 0.2s;
+
       &:hover {
         color: $themeColor;
-        // border: $themeColor 2px solid;
         background-color: white;
       }
+    }
+
+    .healthLabels {
+      padding: 7px 8px;
+      margin-left: 6px;
+      border-radius: 4px;
+      background-color: white;
     }
   }
 
