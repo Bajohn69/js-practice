@@ -9,6 +9,13 @@
   </head>
   <body>
     <h1><%= djs.name %> Weather Now</h1>
+
+    <div class="weather-img">
+      <img
+        src="../public/img/<%= djs.weather[0].description %>.jpg"
+        alt="<%= djs.weather[0].description %>"
+      />
+    </div>
     <table>
       <tr>
         <td>Main Weather</td>
