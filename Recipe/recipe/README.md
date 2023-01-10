@@ -1,5 +1,7 @@
 # Getting Started with Create React App
 
+![image](Recipe/recipe/readme/🥦Recipe🥩_—_Mozilla_Firefox_2023-01-09_11-07-15_AdobeExpress.gif)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
