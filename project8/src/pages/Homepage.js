@@ -68,7 +68,7 @@ const Homepage = () => {
         {data && data.map((d) => <Picture data={d} key={d.id} />)}
       </div>
       <div className="morePicture">
-        <button onClick={morePicture}>More Picture</button>
+        <button onClick={morePicture}>More Pictures</button>
       </div>
     </div>
   );
