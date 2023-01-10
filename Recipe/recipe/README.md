@@ -40,7 +40,6 @@ npm start
 - react v18.2.0
 - react-dom v18.2.0
 - react-scripts v5.0.1
-- web-vitals v2.1.4
 
 ## 聯絡作者
 
